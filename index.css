@@ -1,0 +1,249 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
+.hidden {
+  display: none;
+}
+.show {
+  display: block;
+}
+#appMusic .music {
+  width: 100%;
+  height: 100%;
+  background: url("image/bg.jpg") no-repeat;
+  background-size: 100% 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+#appMusic .music .appMusic-content {
+  width: 800px;
+  height: 544px;
+  border: 1px solid black;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left: -400px;
+  margin-top: -272px;
+}
+#appMusic .music .appMusic-content .top {
+  width: 100%;
+  height: 60px;
+  background-color: #1eacda;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+#appMusic .music .appMusic-content .top .left {
+  padding-left: 20px;
+}
+#appMusic .music .appMusic-content .top .right {
+  padding-right: 30px;
+  position: relative;
+}
+#appMusic .music .appMusic-content .top .right input {
+  width: 300px;
+  height: 30px;
+  border-radius: 15px;
+  border: none;
+  outline: medium;
+  padding-left: 20px;
+  background-color: #91d0ea;
+}
+#appMusic .music .appMusic-content .top .right img {
+  position: absolute;
+  top: 7px;
+  right: 40px;
+}
+#appMusic .music .appMusic-content .center {
+  display: flex;
+  justify-content: space-around;
+  height: 424px;
+}
+#appMusic .music .appMusic-content .center .left {
+  flex: 2.5;
+  overflow: hidden;
+}
+#appMusic .music .appMusic-content .center .left .playMusic {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#appMusic .music .appMusic-content .center .left .playMusic .music-list {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  background-color: #d6c9ad;
+  margin-bottom: 10px;
+  text-align: center;
+  line-height: 30px;
+  align-items: center;
+  padding-left: 10px;
+  border-radius: 5px;
+}
+#appMusic .music .appMusic-content .center .left .playMusic .music-list div img {
+  width: 20px;
+  height: 20px;
+  margin-top: 10px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+#appMusic .music .appMusic-content .center .left .playMusic .music-list div p {
+  padding-top: 10px;
+  font-size: 14px;
+  width: 120px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-bottom: 10px;
+  text-align: left;
+}
+#appMusic .music .appMusic-content .center .left .playMusic .music-list .imgMv {
+  margin-top: 6px;
+  width: 20px;
+  height: 20px;
+  background-image: url("image/table.png");
+  background-position: -3px -50px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+#appMusic .music .appMusic-content .center .playMusic::-webkit-scrollbar {
+  display: none;
+}
+#appMusic .music .appMusic-content .center .center {
+  flex: 5;
+  border-left: 1px solid black;
+  border-right: 1px solid black ;
+}
+#appMusic .music .appMusic-content .center .center .pointer {
+  position: absolute;
+  z-index: 1;
+  top: 56px;
+  left: 50%;
+  z-index: 5;
+  transform: rotate(-25deg);
+  transform-origin: 12px 12px;
+  transition: 1s;
+}
+#appMusic .music .appMusic-content .center .center .played {
+  transform: rotate(0deg);
+}
+#appMusic .music .appMusic-content .center .center .circular {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -147px;
+  margin-left: -127px;
+}
+#appMusic .music .appMusic-content .center .center .circular .imgSong {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -75px;
+  margin-top: -75px;
+  z-index: 2;
+}
+#appMusic .music .appMusic-content .center .center .circular .imgBlack {
+  position: relative;
+  z-index: 3;
+}
+#appMusic .music .appMusic-content .center .playing {
+  animation: rotateImg 5s linear infinite;
+}
+@keyframes rotateImg {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+#appMusic .music .appMusic-content .center .right {
+  flex: 2.5;
+  overflow: hidden;
+  overflow-y: auto;
+}
+#appMusic .music .appMusic-content .center .right h6 {
+  padding: 10px;
+}
+#appMusic .music .appMusic-content .center .right ul.hotComments {
+  overflow-y: auto;
+}
+#appMusic .music .appMusic-content .center .right ul.hotComments li.hotComments-list {
+  display: flex;
+  margin-bottom: 20px;
+}
+#appMusic .music .appMusic-content .center .right ul.hotComments li.hotComments-list div.left {
+  flex: 3;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#appMusic .music .appMusic-content .center .right ul.hotComments li.hotComments-list div.left img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+#appMusic .music .appMusic-content .center .right ul.hotComments li.hotComments-list div.right {
+  flex: 7;
+  width: 100%;
+  margin-left: -13px;
+}
+#appMusic .music .appMusic-content .center .right ul.hotComments li.hotComments-list div.right span {
+  font-size: 12px;
+}
+#appMusic .music .appMusic-content .center .right ul.hotComments li.hotComments-list div.right p {
+  margin-top: 10px;
+  padding-right: 5px;
+  font-size: 12px;
+  color: #ddd;
+}
+#appMusic .music .right::-webkit-scrollbar {
+  display: none;
+}
+#appMusic .music div.bottom {
+  width: 798px;
+  height: 60px;
+  background-color: #f1f3f4;
+}
+#appMusic .music div.bottom audio {
+  width: 799px;
+  border: none;
+  outline-style: none ;
+}
+#appMusic .music div.dask div.dask-item {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 888;
+}
+#appMusic .music div.dask .playMv {
+  width: 700px;
+  height: 500px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+#appMusic .music div.dask .closeMv {
+  font-size: 20px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  color: white;
+  cursor: pointer;
+}

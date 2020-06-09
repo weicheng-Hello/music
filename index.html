@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+    <div id="appMusic">
+        <div class="music">
+            <div class="appMusic-content">
+                <div class="top">
+                    <div class="left">
+                        Music Player
+                    </div>
+                    <div class="right">
+                        <input type="text" v-model="songName" @keyup.enter="searchkeywords()">
+                        <img src="./image/zoom.png" alt="">
+                    </div>
+                </div>
+                <div class="center">
+                    <div class="left">
+                        <ul class="playMusic">
+                            <li class="music-list" v-for="item,index in musicList">
+                                <div @click="playMusic(item.id)"><img src="./image/play.png" alt=""></div>
+                                <div><p>{{item.name}}</p></div>
+                                <div class="imgMv" @click="playMv(item.mvid)" v-if="item.mvid!=0"></div>
+                            </li>
+                            <li class="music-list">
+                                <div><img src="./image/play.png" alt=""></div>
+                                <div><p>他一定很爱你真的很爱你爱你还</p></div>
+                                <div class="imgMv"></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="center">
+                        <div class="pointer" :class="{played:isPlay}">
+                            <img src="./image/player_bar.png" >
+                        </div>
+                        <div :class="['circular',{playing:isPlay}]">
+                            <img :src="coverUrl==''? './image/cover.png':coverUrl " class="imgSong">
+                            <img src="./image/disc.png" alt="" class="imgBlack">
+                        </div>
+                    </div>
+                    <div class="right">
+                        <h6>热门留言</h6>
+                        <ul class="hotComments">
+                            <li class="hotComments-list" v-for="item,index in hotComments">
+                                <div class="left">
+                                    <img :src="item.user.avatarUrl">
+                                </div>
+                                <div class="right">
+                                    <span>{{item.user.nickname}}</span>
+                                    <p>{{item.content}}</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <audio ref="audio" :src="musicUrl" controls loop autoplay @play="play" @pause="pause"></audio>
+                </div>
+                <div :class="['dask',{hidden:showMv}]">
+                    <div class="dask-item"></div>
+                    <video ref="video" :src="mvUrl" controls loop autoplay @pause="pause" class="playMv"></video>
+                    <div class="closeMv" @click="closeMv">x</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./axios.js"></script>
+    <script src="./common.js"></script>
+    <script>
+        axios.defaults.baseURL = 'https://apimusic.linweiqin.com/';
+        let app = new Vue({
+            el: "#appMusic",
+            data: {
+                songName: "热门",//页面初始化时搜索内容
+                musicList: [],//储存歌曲列表
+                musicUrl: "",//歌曲的地址
+                coverUrl:"",//封面
+                hotComments: [],//热门留言的内容
+                isPlay:false,//控制歌曲的播放和暂停
+                showMv:true,//控制Mv的显示和隐藏
+                mvUrl:""//MV的地址
+            },
+            //生命周期 挂载后显示热门歌曲
+            mounted() {
+
+                Axios.get("/search", {
+                    params: {
+                        keywords: this.songName
+                    }
+                }).then((res) => {
+                    this.musicList = res.result.songs
+                })
+            },
+            methods: {
+                //搜索歌曲
+                searchkeywords: function () {
+                    if(this.song=""){
+                        return
+                    }
+                    axios.get('/search?keywords=' + this.songName).then(response => {
+                        // console.log(response)
+                        this.musicList = response.data.result.songs
+                    })
+                    // axios.get("https://apimusic.linweiqin.com/mv/url?mvid=" + this.mvUrl).then(response => {
+                    //     console.log(response)
+                    // })
+                },
+                //播放音乐
+                playMusic: function (musicId) {
+                    this.isPlay=true
+                    //获取歌曲的地址
+                    axios.get('/song/url?id=' + musicId).then(response => {
+                        // console.log(response)
+                        this.musicUrl = response.data.data[0].url
+                    })
+                    //获取封面
+                    axios.get('/song/detail?ids=' + musicId).then(response => {
+                        console.log(response)
+                        // 设置封面
+                        this.coverUrl = response.data.songs[0].al.picUrl
+                        console.log(this.coverUrl)
+                    })
+                    //获取热门内容
+                    axios.get('/comment/hot?type=0&&id=' + musicId).then(response => {
+                        this.hotComments = response.data.hotComments
+                        console.log(this.hotComments)
+                    })
+                    
+                },
+                 // audio的play事件
+                play() {
+                    this.isPlay = true
+                    // 清空mv的信息
+                    this.mvUrl = ''
+                    console.log(123)
+                },
+                // audio的pause事件
+                pause() {
+                    this.isPlay = false
+                    console.log(222)
+                },
+                //播放mv
+                playMv(vid) {
+                    if (vid) {
+                        this.showMv = false;
+                        // 获取mv信息
+                        axios.get('/mv/url?id=' + vid).then(response => {
+                            // console.log(response)
+                            // 暂停歌曲播放
+                            this.$refs.audio.pause()
+                            // 获取mv地址
+                            this.mvUrl = response.data.data.url
+                            console.log(this.mvUrl)
+                        })
+                    }
+                },
+                //关闭MV
+                closeMv:function(){
+                    this.showMv =true
+                    this.$refs.video.pause()
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
